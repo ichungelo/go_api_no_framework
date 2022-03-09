@@ -1,9 +1,9 @@
 package entity
 
 type BookEntity struct {
-	BookId  string `json:"book_id" binding:"required"` 
-	Title   string `json:"title" binding:"required"`
-	Year    int    `json:"year" binding:"required"`
-	Author  string `json:"author" binding:"required"`
+	BookId  string `json:"book_id"` 
+	Title   string `json:"title"`
+	Year    int    `json:"year"`
+	Author  string `json:"author"`
 	Summary string `json:"summary" `
 }

@@ -25,7 +25,39 @@ func GetAllBooks(w http.ResponseWriter, r *http.Request) {
 		utils.SetJSONRes(w, res, http.StatusOK)
 		return
 	}
-	errorBadRequest(w, r)
+	ErrorNotFound(w, r)
+}
+
+//? GET BOOK BY ID
+func GetBookById(w http.ResponseWriter, r *http.Request)  {
+	if r.Method == http.MethodPost {
+		req := transport.RequestBookId{}
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			message := []byte(err.Error())
+			utils.SetJSONRes(w, message, http.StatusInternalServerError)
+			return
+		}
+
+		id := req.BookId
+
+		if id == "" {
+			res, _ := json.Marshal(usecase.ResponseBook(false, "Bad Request"))
+			utils.SetJSONRes(w, res, http.StatusBadRequest)
+			return
+		}
+
+		data, err := repository.GetBookById(id)
+
+		if err != nil {
+			ErrorNotFound(w, r)
+			return
+		}
+
+		res, _ := json.Marshal(data)
+		utils.SetJSONRes(w, res, http.StatusOK)
+		return
+	}
+	ErrorNotFound(w, r)
 }
 
 //? POST BOOK
@@ -41,19 +73,16 @@ func PostBook(w http.ResponseWriter, r *http.Request) {
 		book := usecase.AddBookUsecase(req)
 
 		if !(book.Title != "" && book.Year != 0 && book.Author != "" && book.Summary != "") {//handler
-			res, _ := json.Marshal(usecase.ResponseBook(false, "Bad Request"))
-			message := []byte(res)
-			utils.SetJSONRes(w, message, http.StatusBadRequest)
+			errorBadRequest(w, r)
 			return
 		}
 
 		repository.AddBook(book)
 		res, _ := json.Marshal(usecase.ResponseBook(true, "Book Added"))
-		message := []byte(res)
-		utils.SetJSONRes(w, message, http.StatusCreated)
+		utils.SetJSONRes(w, res, http.StatusCreated)
 		return
 	}
-	errorBadRequest(w, r)
+	ErrorNotFound(w, r)
 }
 
 //? UPDATE BOOK BY ID
@@ -67,49 +96,26 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if !(req.BookId != "" && req.Title != "" && req.Year != 0 && req.Author != "" && req.Summary != "") {
-			res, _ := json.Marshal(usecase.ResponseBook(false, "Bad Request"))
-			message := []byte(res)
-			utils.SetJSONRes(w, message, http.StatusBadRequest)
+			errorBadRequest(w, r)
 			return
 		}
 		repository.UpdateBook(req)
 
 		res, _ := json.Marshal(usecase.ResponseBook(true, "Book Updated"))
-		message := []byte(res)
-		utils.SetJSONRes(w, message, http.StatusAccepted)
+		utils.SetJSONRes(w, res, http.StatusAccepted)
 		return
 	}
-	errorBadRequest(w, r)
+	ErrorNotFound(w, r)
 }
 
 //! ERROR BAD REQUEST
 func errorBadRequest(w http.ResponseWriter, r *http.Request) {
-	data := transport.ResponseBook{
-		Success: false,
-		Message: "Bad Request",
-	}
-	res, err := json.Marshal(data)
-	if err != nil {
-		message := []byte(err.Error())
-		utils.SetJSONRes(w, message, http.StatusInternalServerError)
-	}
-	message := []byte(res)
-
-	utils.SetJSONRes(w, message, http.StatusBadRequest)
+	res, _ := json.Marshal(usecase.ResponseBook(false, "Bad Request"))
+	utils.SetJSONRes(w, res, http.StatusBadRequest)
 }
 
 //! ERROR NOT FOUND
 func ErrorNotFound(w http.ResponseWriter, r *http.Request) {
-	data := transport.ResponseBook{
-		Success: false,
-		Message: "Not Found",
-	}
-	res, err := json.Marshal(data)
-	if err != nil {
-		message := []byte(err.Error())
-		utils.SetJSONRes(w, message, http.StatusInternalServerError)
-	}
-	message := []byte(res)
-
-	utils.SetJSONRes(w, message, http.StatusNotFound)
+	res, _ := json.Marshal(usecase.ResponseBook(false, "Not Found"))
+	utils.SetJSONRes(w, res, http.StatusNotFound)
 }
