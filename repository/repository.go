@@ -45,8 +45,8 @@ func UpdateBook(book entity.BookEntity) {
 	}
 }
 
-func DeleteBook(id string)  {
-	data :=GetBooks()
+func DeleteBook(id string) {
+	data := GetBooks()
 	newData := []entity.BookEntity{}
 	for i := 0; i < len(data); i++ {
 		if data[i].BookId == id {

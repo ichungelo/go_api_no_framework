@@ -7,6 +7,7 @@ import (
 	"api_go_no_framework/usecase"
 	"api_go_no_framework/utils"
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -29,7 +30,7 @@ func GetAllBooks(w http.ResponseWriter, r *http.Request) {
 }
 
 //? GET BOOK BY ID
-func GetBookById(w http.ResponseWriter, r *http.Request)  {
+func GetBookById(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodPost {
 		req := transport.RequestBookId{}
 		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
@@ -72,7 +73,7 @@ func PostBook(w http.ResponseWriter, r *http.Request) {
 
 		book := usecase.AddBookUsecase(req)
 
-		if !(book.Title != "" && book.Year != 0 && book.Author != "" && book.Summary != "") {//handler
+		if !(book.Title != "" && book.Year != 0 && book.Author != "" && book.Summary != "") { //handler
 			errorBadRequest(w, r)
 			return
 		}
@@ -96,6 +97,7 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if !(req.BookId != "" && req.Title != "" && req.Year != 0 && req.Author != "" && req.Summary != "") {
+			log.Println("Error")
 			errorBadRequest(w, r)
 			return
 		}
@@ -108,9 +110,36 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 	ErrorNotFound(w, r)
 }
 
+func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodDelete {
+		req := transport.RequestBookId{}
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			message := []byte(err.Error())
+			utils.SetJSONRes(w, message, http.StatusInternalServerError)
+			return
+		}
+		
+		id := req.BookId
+
+		if id == "" {
+			res, _ := json.Marshal(usecase.ResponseBook(false, "Bad Request"))
+			utils.SetJSONRes(w, res, http.StatusBadRequest)
+			return
+		}
+
+		repository.DeleteBook(id)
+
+		res, _ := json.Marshal(usecase.ResponseBook(true, "Book Deleted"))
+		utils.SetJSONRes(w, res, http.StatusOK)
+		return
+	}
+	ErrorNotFound(w, r)
+}
+
 //! ERROR BAD REQUEST
 func errorBadRequest(w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal(usecase.ResponseBook(false, "Bad Request"))
+	log.Println(res)
 	utils.SetJSONRes(w, res, http.StatusBadRequest)
 }
 
