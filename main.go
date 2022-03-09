@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api_go_no_framework/utils"
 	"fmt"
 	"net/http"
 )
@@ -12,7 +13,7 @@ func main() {
 		message := []byte(
 			`{"status": "pong"}`,
 		)
-		w.Write(message)
+		utils.SetJSONRes(w, message, http.StatusOK)
 	})
 
     fmt.Printf("Start web server at http://localhost%s", port)
