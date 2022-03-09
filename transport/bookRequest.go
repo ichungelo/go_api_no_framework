@@ -6,3 +6,7 @@ type RequestBook struct {
 	Author  string `json:"author"`
 	Summary string `json:"summary"`
 }
+
+type RequestBookById struct {
+	BookId string `json:"book_id"`
+}

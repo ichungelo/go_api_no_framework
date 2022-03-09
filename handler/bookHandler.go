@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"api_go_no_framework/books"
+	"api_go_no_framework/repository"
 	"api_go_no_framework/transport"
 	"api_go_no_framework/utils"
 	"encoding/json"
@@ -9,9 +9,10 @@ import (
 )
 
 //? GET ALL BOOKS
-func GetAllBooks(w http.ResponseWriter, r *http.Request)  {
+func GetAllBooks(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		res, err := json.Marshal(books.Bookshelf)
+		data := repository.GetBooks()
+		res, err := json.Marshal(data)
 
 		if err != nil {
 			message := []byte(err.Error())
@@ -23,6 +24,30 @@ func GetAllBooks(w http.ResponseWriter, r *http.Request)  {
 		return
 	}
 	errorBadRequest(w, r)
+}
+
+//? POST BOOK
+func PostBook(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPost {
+		req := transport.RequestBook{}
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			message := []byte(err.Error())
+			utils.SetJSONRes(w, message, http.StatusInternalServerError)
+			return
+		}
+
+		data, err := repository.AddBook(req)
+		if err != nil {
+			res, _ := json.Marshal(data)
+			message := []byte(res)
+			utils.SetJSONRes(w, message, http.StatusBadRequest)
+			return
+		}
+
+		res, _ := json.Marshal(data)
+		message := []byte(res)
+		utils.SetJSONRes(w, message, http.StatusCreated)
+	}
 }
 
 //! ERROR BAD REQUEST
