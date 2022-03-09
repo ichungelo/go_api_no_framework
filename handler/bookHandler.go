@@ -1,8 +1,10 @@
 package handler
 
 import (
+	"api_go_no_framework/entity"
 	"api_go_no_framework/repository"
 	"api_go_no_framework/transport"
+	"api_go_no_framework/usecase"
 	"api_go_no_framework/utils"
 	"encoding/json"
 	"net/http"
@@ -36,18 +38,48 @@ func PostBook(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		data, err := repository.AddBook(req)
-		if err != nil {
-			res, _ := json.Marshal(data)
+		book := usecase.AddBookUsecase(req)
+
+		if !(book.Title != "" && book.Year != 0 && book.Author != "" && book.Summary != "") {//handler
+			res, _ := json.Marshal(usecase.ResponseBook(false, "Bad Request"))
 			message := []byte(res)
 			utils.SetJSONRes(w, message, http.StatusBadRequest)
 			return
 		}
 
-		res, _ := json.Marshal(data)
+		repository.AddBook(book)
+		res, _ := json.Marshal(usecase.ResponseBook(true, "Book Added"))
 		message := []byte(res)
 		utils.SetJSONRes(w, message, http.StatusCreated)
+		return
 	}
+	errorBadRequest(w, r)
+}
+
+//? UPDATE BOOK BY ID
+func UpdateBook(w http.ResponseWriter, r *http.Request) {
+	if r.Method == http.MethodPut {
+		req := entity.BookEntity{}
+		if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+			message := []byte(err.Error())
+			utils.SetJSONRes(w, message, http.StatusInternalServerError)
+			return
+		}
+
+		if !(req.BookId != "" && req.Title != "" && req.Year != 0 && req.Author != "" && req.Summary != "") {
+			res, _ := json.Marshal(usecase.ResponseBook(false, "Bad Request"))
+			message := []byte(res)
+			utils.SetJSONRes(w, message, http.StatusBadRequest)
+			return
+		}
+		repository.UpdateBook(req)
+
+		res, _ := json.Marshal(usecase.ResponseBook(true, "Book Updated"))
+		message := []byte(res)
+		utils.SetJSONRes(w, message, http.StatusAccepted)
+		return
+	}
+	errorBadRequest(w, r)
 }
 
 //! ERROR BAD REQUEST

@@ -12,7 +12,8 @@ func main() {
 	http.HandleFunc("/", handler.ErrorNotFound)
 	http.HandleFunc("/get/books", handler.GetAllBooks)
 	http.HandleFunc("/post/books", handler.PostBook)
+	http.HandleFunc("/put/books", handler.UpdateBook)
 
-    fmt.Printf("Start web server at http://localhost%s", port)
+    fmt.Printf("Start web server at http://localhost%s\n", port)
 	http.ListenAndServe(port, nil)
 }
