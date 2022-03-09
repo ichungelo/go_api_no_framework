@@ -1,13 +1,18 @@
 package utils
 
-import "math/rand"
+import (
+	"math/rand"
+	"time"
+)
 
-func IdGEnerator(n int) string {
-	var letters = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
- 
-    s := make([]rune, n)
-    for i := range s {
-        s[i] = letters[rand.Intn(len(letters))]
-    }
-    return string(s)
+var seededRand *rand.Rand = rand.New(
+	rand.NewSource(time.Now().UnixNano()))
+
+func IdGEnerator(length int) string {
+	charset := "abcdefghijklmnopqrstuvwxyz" + "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	return string(b)
 }

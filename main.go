@@ -1,6 +1,7 @@
 package main
 
 import (
+	"api_go_no_framework/handler"
 	"api_go_no_framework/utils"
 	"fmt"
 	"net/http"
@@ -9,13 +10,10 @@ import (
 func main() {
 	port := ":3000"
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		message := []byte(
-			`{"status": "pong"}`,
-		)
-		utils.SetJSONRes(w, message, http.StatusOK)
-	})
+	http.HandleFunc("/", handler.ErrorNotFound)
+	http.HandleFunc("/get/books", handler.GetAllBooks)
 
+	fmt.Println(utils.IdGEnerator(16))
     fmt.Printf("Start web server at http://localhost%s", port)
 	http.ListenAndServe(port, nil)
 }

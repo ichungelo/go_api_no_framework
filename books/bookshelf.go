@@ -4,7 +4,7 @@ import "api_go_no_framework/entity"
 
 var Bookshelf = []entity.BookEntity{
 	{
-		BookId: "0001",
+		BookId: "oHfQzqGIoXIGRQyQ",
 		Title: "The Hunger Games",
 		Year: 2008,
 		Author: "Suzanne Collins",
