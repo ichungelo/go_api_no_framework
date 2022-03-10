@@ -2,6 +2,7 @@ package main
 
 import (
 	"api_go_no_framework/handler"
+	"api_go_no_framework/errors"
 	"fmt"
 	"net/http"
 )
@@ -9,7 +10,7 @@ import (
 func main() {
 	port := ":3000"
 
-	http.HandleFunc("/", handler.ErrorNotFound)
+	http.HandleFunc("/", errors.ErrorNotFound)
 	http.HandleFunc("/get/books/all", handler.GetAllBooks)
 	http.HandleFunc("/post/books", handler.PostBook)
 	http.HandleFunc("/put/books", handler.UpdateBook)
