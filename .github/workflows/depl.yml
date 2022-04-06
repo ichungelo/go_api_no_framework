@@ -6,11 +6,6 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build GO
-        run: docker build . --tag book_api:$(date +%s)
 
   deploy:
     runs-on: ubuntu-latest
