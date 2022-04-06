@@ -1,0 +1,13 @@
+deploy to heroku:
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Deploy-heroku:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: start
+        run: echo "Deploy Started"
