@@ -16,3 +16,4 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "book-api-be" #Must be unique in Heroku
           heroku_email: "krisna.s.362@gmail.com"
+          procfile: "api: go run main.go"
