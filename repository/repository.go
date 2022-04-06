@@ -1,8 +1,8 @@
 package repository
 
 import (
-	"api_go_no_framework/books"
-	"api_go_no_framework/entity"
+	"github.com/ichungelo/api_go_no_framework/books"
+	"github.com/ichungelo/api_go_no_framework/entity"
 	"errors"
 	"log"
 )

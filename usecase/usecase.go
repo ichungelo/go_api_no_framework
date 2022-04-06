@@ -1,9 +1,9 @@
 package usecase
 
 import (
-	"api_go_no_framework/entity"
-	"api_go_no_framework/transport"
-	"api_go_no_framework/utils"
+	"github.com/ichungelo/api_go_no_framework/entity"
+	"github.com/ichungelo/api_go_no_framework/transport"
+	"github.com/ichungelo/api_go_no_framework/utils"
 )
 
 func AddBookUsecase (data transport.RequestBook) (entity.BookEntity) {
