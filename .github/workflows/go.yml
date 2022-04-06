@@ -13,5 +13,5 @@ jobs:
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "book_api_be" #Must be unique in Heroku
+          heroku_app_name: "book-api-be" #Must be unique in Heroku
           heroku_email: "krisna.s.362@gmail.com"
