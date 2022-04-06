@@ -1,9 +1,9 @@
 package errors
 
 import (
-	"api_go_no_framework/transport"
-	"api_go_no_framework/usecase"
-	"api_go_no_framework/utils"
+	"github.com/ichungelo/api_go_no_framework/transport"
+	"github.com/ichungelo/api_go_no_framework/usecase"
+	"github.com/ichungelo/api_go_no_framework/utils"
 	"encoding/json"
 	"fmt"
 	"log"

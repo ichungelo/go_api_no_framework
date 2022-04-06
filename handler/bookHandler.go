@@ -1,12 +1,12 @@
 package handler
 
 import (
-	"api_go_no_framework/entity"
-	"api_go_no_framework/repository"
-	"api_go_no_framework/transport"
-	"api_go_no_framework/usecase"
-	"api_go_no_framework/utils"
-	"api_go_no_framework/errors"
+	"github.com/ichungelo/api_go_no_framework/entity"
+	"github.com/ichungelo/api_go_no_framework/repository"
+	"github.com/ichungelo/api_go_no_framework/transport"
+	"github.com/ichungelo/api_go_no_framework/usecase"
+	"github.com/ichungelo/api_go_no_framework/utils"
+	"github.com/ichungelo/api_go_no_framework/errors"
 	"encoding/json"
 	"log"
 	"net/http"

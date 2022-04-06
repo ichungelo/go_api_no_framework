@@ -1,6 +1,6 @@
 package books
 
-import "api_go_no_framework/entity"
+import "github.com/ichungelo/api_go_no_framework/entity"
 
 var Bookshelf = []entity.BookEntity{
 	{

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"api_go_no_framework/handler"
-	"api_go_no_framework/errors"
+	"github.com/ichungelo/api_go_no_framework/handler"
+	"github.com/ichungelo/api_go_no_framework/errors"
 	"fmt"
 	"net/http"
 )
