@@ -1,1 +1,1 @@
-web: go run .
+web: github.com/ichungelo/api_go_no_framework
