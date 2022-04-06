@@ -12,7 +12,6 @@ jobs:
       - name: Build GO
         run: docker build . --tag book_api:$(date +%s)
 
-jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
