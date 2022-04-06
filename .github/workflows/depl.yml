@@ -1,4 +1,4 @@
-name: Go Build
+name: Deploy Heroku
 
 on:
   push:
@@ -6,13 +6,10 @@ on:
       - master
 
 jobs:
-  build:
+
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Build GO
-        run: docker build . --tag book_api:$(date +%s)
-
-      - name: Deploy to Heroku
       - uses: actions/checkout@v2
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
