@@ -1,4 +1,4 @@
-name: deploy to heroku
+name: Build Go app
 
 on:
   push:
@@ -16,5 +16,6 @@ jobs:
       with:
         go-version: 1.17
 
+    steps:
     - name: Build
       run: go build -v ./...

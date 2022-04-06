@@ -1,4 +1,4 @@
-name: Go Build
+name: Deploy Heroku
 
 on:
   push:
