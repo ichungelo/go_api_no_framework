@@ -1,1 +1,1 @@
-web: api_go_no_framework
+web: go run .
