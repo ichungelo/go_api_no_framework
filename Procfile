@@ -1,1 +1,1 @@
-web: github.com/ichungelo/api_go_no_framework
+web: bin/api_go_no_framework
