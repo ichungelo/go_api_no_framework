@@ -10,11 +10,13 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v3
+    - name: Build Container
+      run : docker build . --file Dockerfile --tag ichungelo/book_api:$(date +%s)
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.17
-
-    - name: Build
-      run: go build -v ./...
+    - name: Deploy Heroku 
+    - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "book_api_be" #Must be unique in Heroku
+          heroku_email: "krisna.s.362@gmail.com"
+          usedocker: true
